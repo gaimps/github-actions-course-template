@@ -2,7 +2,7 @@ const Game = require('../src/game').default
 const fs = require('fs')
 
 describe('App', () => {
-  ('It Contains the compiled JavaScript', async (done) => {
+  it('Contains the compiled JavaScript', async (done) => {
     fs.readFile('./public/main.js', 'utf8', (err, data) => {
       expect(err).toBe(null)
       expect(data).toMatchSnapshot()
@@ -20,12 +20,12 @@ describe('Game', () => {
   })
 
   describe('Game', () => {
-    ('Initializes with two players', async () => {
+    it('Initializes with two players', async () => {
       expect(game.p1).toBe('Salem')
       expect(game.p2).toBe('Nate')
     })
 
-    ('Initializes with an empty board', async () => {
+    it('Initializes with an empty board', async () => {
       for (let r = 0; r < game.board.length; r++) {
         for (let c = 0; c < game.board[r].lenght; c++) {
           expect(game.board[r][c]).toBeUndefined()
@@ -33,7 +33,7 @@ describe('Game', () => {
       }
     })
 
-    ('Starts the game with a random player', async () => {
+    it('Starts the game with a random player', async () => {
       Math.random = () => 0.4
       expect(new Game(p1, p2).player).toBe('Salem')
 
@@ -43,19 +43,19 @@ describe('Game', () => {
   })
 
   describe('turn', () => {
-    ("Inserts an 'X' into the top center", async () => {
+    it("Inserts an 'X' into the top center", async () => {
       game.turn(0, 1)
       expect(game.board[0][1]).toBe('X')
     })
 
-    ("Inserts an 'X' into the top left", async () => {
+    it("Inserts an 'X' into the top left", async () => {
       game.turn(0)
       expect(game.board[0][0]).toBe('X')
     })
   })
 
   describe('nextPlayer', () => {
-    ('Sets the current player to be whoever it is not', async () => {
+    it('Sets the current player to be whoever it is not', async () => {
       Math.random = () => 0.4
       const game = new Game(p1, p2)
       expect(game.player).toBe('Salem')
@@ -65,7 +65,7 @@ describe('Game', () => {
   })
 
   describe('hasWinner', () => {
-    ('Wins if any row is filled', async () => {
+    it('Wins if any row is filled', async () => {
       for (let r = 0; r < game.board.length; r++) {
         for (let c = 0; c < game.board[r].length; c++) {
           game.board[r][c] = 'X'
@@ -78,7 +78,7 @@ describe('Game', () => {
       }
     })
 
-    ('Wins if any column is filled', async () => {
+    it('Wins if any column is filled', async () => {
       for (let r = 0; r < game.board.length; r++) {
         for (let c = 0; c < game.board[r].length; c++) {
           game.board[c][r] = 'X'
@@ -91,14 +91,14 @@ describe('Game', () => {
       }
     })
 
-    ('Wins if down-left diagonal is filled', async () => {
+    it('Wins if down-left diagonal is filled', async () => {
       for (let r = 0; r < game.board.length; r++) {
         game.board[r][r] = 'X'
       }
       expect(game.hasWinner()).toBe(true)
     })
 
-    ('Wins if up-right diagonal is filled', async () => {
+    it('Wins if up-right diagonal is filled', async () => {
       for (let r = 0; r < game.board.length; r++) {
         game.board[2 - r][r] = 'X'
       }
